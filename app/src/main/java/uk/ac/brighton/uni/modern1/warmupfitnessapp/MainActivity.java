@@ -17,6 +17,9 @@ public class MainActivity extends AppCompatActivity
     private SeekBar durationBar;
     private SeekBar intensityBar;
 
+    public int duration;
+    private int intensity = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -32,6 +35,7 @@ public class MainActivity extends AppCompatActivity
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
             {
                 durationValue.setText("" + progress + " Minutes");
+                duration = progress;
             }
 
             @Override
@@ -57,12 +61,15 @@ public class MainActivity extends AppCompatActivity
                 {
                     case 0:
                         intensityText.setText("Low");
+                        intensity = 1;
                         break;
                     case 1:
                         intensityText.setText("Medium");
+                        intensity = 2;
                         break;
                     case 2:
                         intensityText.setText("High");
+                        intensity = 3;
                         break;
                 }
             }
@@ -91,7 +98,11 @@ public class MainActivity extends AppCompatActivity
 
     public void goToCountdownTimerActivity()
     {
+        Intent sendDataToWarmupClass = new Intent(this, Warmup.class);
+        sendDataToWarmupClass.putExtra("intensityValue", intensity);
+
         Intent changeActivity = new Intent(this, CountdownTimer.class);
+        changeActivity.putExtra("intensityValue", intensity);
         startActivity(changeActivity);
     }
 }
