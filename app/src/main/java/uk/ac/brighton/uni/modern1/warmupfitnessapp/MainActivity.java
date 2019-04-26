@@ -5,8 +5,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -16,6 +18,9 @@ public class MainActivity extends AppCompatActivity
     private TextView intensityText;
     private SeekBar durationBar;
     private SeekBar intensityBar;
+
+    private ToggleButton exerciseButton;
+    private ToggleButton stretchingButton;
 
     private int duration = 0;
     private int intensity = 0;
@@ -28,6 +33,42 @@ public class MainActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        exerciseButton = (ToggleButton) findViewById(R.id.exerciseButton);
+
+        exerciseButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
+        {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+            {
+                if(isChecked)
+                {
+                    exerciseButtonSelected = true;
+                }
+                else
+                {
+                    exerciseButtonSelected = false;
+                }
+            }
+        });
+
+        stretchingButton = (ToggleButton) findViewById(R.id.stretchingButton);
+
+        stretchingButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
+        {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+            {
+                if(isChecked)
+                {
+                    stretchingButtonSelected = true;
+                }
+                else
+                {
+                    stretchingButtonSelected = false;
+                }
+            }
+        });
 
         durationValue = (TextView) findViewById(R.id.durationValue);
         durationBar = (SeekBar) findViewById(R.id.durationBar);
@@ -94,7 +135,10 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-                goToCountdownTimerActivity();
+                if(exerciseButtonSelected == true || stretchingButtonSelected == true)
+                {
+                    goToCountdownTimerActivity();
+                }
             }
         });
     }
@@ -106,6 +150,8 @@ public class MainActivity extends AppCompatActivity
         //Sending the user input values to the countdown class
         changeActivity.putExtra("intensityValue", intensity);
         changeActivity.putExtra("durationValue", duration);
+        changeActivity.putExtra("exerciseButtonSelected", exerciseButtonSelected);
+        changeActivity.putExtra("stretchingButtonSelected", stretchingButtonSelected);
 
         startActivity(changeActivity);
     }
