@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity
     private ToggleButton stretchingButton;
 
     private int duration = 0;
-    private int intensity = 0;
+    private int intensity = 1;
 
     private boolean exerciseButtonSelected = false;
     private boolean stretchingButtonSelected = false;

@@ -75,11 +75,11 @@ public class Warmup extends AppCompatActivity
         {
             selecetedWarmupValue = (int) Math.round(Math.random());
         }
-        else if (exerciseButtonSelected == true)
+        else if (exerciseButtonSelected == true && stretchingButtonSelected == false)
         {
             selecetedWarmupValue = 0;
         }
-        else //if(exerciseButtonSelected == false && stretchingButtonSelected == true)
+        else if(exerciseButtonSelected == false && stretchingButtonSelected == true)
         {
             selecetedWarmupValue = 1;
         }
@@ -146,6 +146,13 @@ public class Warmup extends AppCompatActivity
             {
                 changeActivity.putExtra("recoveryTimerActive", recoveryTimerActive);
                 changeActivity.putExtra("recoveryTimerValue", recoveryTimerValue * intensityValue);
+
+                //Resending the data
+                changeActivity.putExtra("resentDurationValue", durationValue);
+                changeActivity.putExtra("resentIntensityValue", intensityValue);
+                changeActivity.putExtra("resentExerciseButtonSelected", exerciseButtonSelected);
+                changeActivity.putExtra("resentStretchingButtonSelected", stretchingButtonSelected);
+
                 startActivity(changeActivity);
             }
         }.start();

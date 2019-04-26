@@ -27,6 +27,12 @@ public class CountdownTimer extends AppCompatActivity
     private boolean exerciseButtonSelected = false;
     private boolean stretchingButtonSelected = false;
 
+    private int resentDurationValue;
+    private int resentIntensityValue;
+    private boolean resentExerciseButtonSelected;
+    private boolean resentStretchingButtonSelected;
+    private Intent resentUserInputData;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -42,6 +48,14 @@ public class CountdownTimer extends AppCompatActivity
 
         recoveryTimerActive = userInputData.getBooleanExtra("recoveryTimerActive", false);
         recoveryTimerValue = userInputData.getLongExtra("recoveryTimerValue", 0);
+
+        //Resent values
+        Intent resentUserInputData = getIntent();
+        resentDurationValue = resentUserInputData.getIntExtra("resentDurationValue", 0);
+        resentIntensityValue = resentUserInputData.getIntExtra("resentIntensityValue", 0);
+        resentExerciseButtonSelected = resentUserInputData.getBooleanExtra("resentExerciseButtonSelected", false);
+        resentStretchingButtonSelected = resentUserInputData.getBooleanExtra("resentStretchingButtonSelected", false);
+
 
         countdownText = (TextView) findViewById(R.id.countdownText);
         changeActivity = new Intent(this, Warmup.class);
@@ -88,13 +102,20 @@ public class CountdownTimer extends AppCompatActivity
             @Override
             public void onFinish()
             {
-                if(recoveryTimerActive == false)
-                {
-                    changeActivity.putExtra("durationValue", durationValue);
-                    changeActivity.putExtra("intensityValue", intensityValue);
-                    changeActivity.putExtra("exerciseButtonSelected", exerciseButtonSelected);
-                    changeActivity.putExtra("stretchingButtonSelected", stretchingButtonSelected);
-                }
+                    if(recoveryTimerActive == false)
+                    {
+                        changeActivity.putExtra("durationValue", durationValue);
+                        changeActivity.putExtra("intensityValue", intensityValue);
+                        changeActivity.putExtra("exerciseButtonSelected", exerciseButtonSelected);
+                        changeActivity.putExtra("stretchingButtonSelected", stretchingButtonSelected);
+                    }
+                    else
+                    {
+                        changeActivity.putExtra("durationValue", resentDurationValue);
+                        changeActivity.putExtra("intensityValue", resentIntensityValue);
+                        changeActivity.putExtra("exerciseButtonSelected", resentExerciseButtonSelected);
+                        changeActivity.putExtra("stretchingButtonSelected", resentStretchingButtonSelected);
+                    }
 
                 startActivity(changeActivity);
             }
