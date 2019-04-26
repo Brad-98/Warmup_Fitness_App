@@ -17,8 +17,11 @@ public class MainActivity extends AppCompatActivity
     private SeekBar durationBar;
     private SeekBar intensityBar;
 
-    public int duration;
+    private int duration = 0;
     private int intensity = 0;
+
+    private boolean exerciseButtonSelected = false;
+    private boolean stretchingButtonSelected = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -98,11 +101,12 @@ public class MainActivity extends AppCompatActivity
 
     public void goToCountdownTimerActivity()
     {
-        Intent sendDataToWarmupClass = new Intent(this, Warmup.class);
-        sendDataToWarmupClass.putExtra("intensityValue", intensity);
-
         Intent changeActivity = new Intent(this, CountdownTimer.class);
+
+        //Sending the user input values to the countdown class
         changeActivity.putExtra("intensityValue", intensity);
+        changeActivity.putExtra("durationValue", duration);
+
         startActivity(changeActivity);
     }
 }

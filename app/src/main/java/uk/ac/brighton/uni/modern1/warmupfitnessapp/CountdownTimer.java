@@ -18,18 +18,24 @@ public class CountdownTimer extends AppCompatActivity
     public long countdownValue = 11000;
 
     private Intent changeActivity;
+    private int durationValue;
     private int intensityValue;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_countdown_timer);
 
+        //Receive user input from mainActivity class
+        Intent userInputData = getIntent();
+        durationValue = userInputData.getIntExtra("durationValue", 0);
+        intensityValue = userInputData.getIntExtra("intensityValue", 0);
+
         countdownText = (TextView) findViewById(R.id.countdownText);
         changeActivity = new Intent(this, Warmup.class);
 
-        Intent userInputData = getIntent();
-        intensityValue = userInputData.getIntExtra("intensityValue", 0);
+
 
         startCountdownTimer(countdownValue);
     }
@@ -50,6 +56,7 @@ public class CountdownTimer extends AppCompatActivity
 
                 if(count == 10)
                 {
+                    changeActivity.putExtra("durationValue", durationValue);
                     changeActivity.putExtra("intensityValue", intensityValue);
                     startActivity(changeActivity);
                     count = 0;
