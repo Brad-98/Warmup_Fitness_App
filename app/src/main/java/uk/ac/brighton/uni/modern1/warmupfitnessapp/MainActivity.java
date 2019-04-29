@@ -1,6 +1,8 @@
 package uk.ac.brighton.uni.modern1.warmupfitnessapp;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -22,7 +24,7 @@ public class MainActivity extends AppCompatActivity
     private ToggleButton exerciseButton;
     private ToggleButton stretchingButton;
 
-    private int duration = 0;
+    private int duration = 1;
     private int intensity = 1;
 
     private boolean exerciseButtonSelected = false;
@@ -35,6 +37,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         exerciseButton = (ToggleButton) findViewById(R.id.exerciseButton);
+        exerciseButton.setBackgroundColor(Color.LTGRAY);
 
         exerciseButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
         {
@@ -44,16 +47,18 @@ public class MainActivity extends AppCompatActivity
                 if(isChecked)
                 {
                     exerciseButtonSelected = true;
+                    exerciseButton.setBackgroundColor(Color.parseColor("#77abff"));
                 }
                 else
                 {
                     exerciseButtonSelected = false;
+                    exerciseButton.setBackgroundColor(Color.LTGRAY);
                 }
             }
         });
 
         stretchingButton = (ToggleButton) findViewById(R.id.stretchingButton);
-
+        stretchingButton.setBackgroundColor(Color.LTGRAY);
         stretchingButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
         {
             @Override
@@ -62,10 +67,12 @@ public class MainActivity extends AppCompatActivity
                 if(isChecked)
                 {
                     stretchingButtonSelected = true;
+                    stretchingButton.setBackgroundColor(Color.parseColor("#77abff"));
                 }
                 else
                 {
                     stretchingButtonSelected = false;
+                    stretchingButton.setBackgroundColor(Color.LTGRAY);
                 }
             }
         });
@@ -78,8 +85,18 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
             {
-                durationValue.setText("" + progress + " Minutes");
-                duration = progress;
+                switch (progress)
+                {
+                    case 0:
+                        duration = 1;
+                        durationValue.setText("" + duration + " Minute");
+                        break;
+
+                        default:
+                            duration = progress + 1;
+                            durationValue.setText("" + (progress + 1) + " Minutes");
+                            break;
+                }
             }
 
             @Override
@@ -152,6 +169,7 @@ public class MainActivity extends AppCompatActivity
         changeActivity.putExtra("durationValue", duration);
         changeActivity.putExtra("exerciseButtonSelected", exerciseButtonSelected);
         changeActivity.putExtra("stretchingButtonSelected", stretchingButtonSelected);
+
 
         startActivity(changeActivity);
     }

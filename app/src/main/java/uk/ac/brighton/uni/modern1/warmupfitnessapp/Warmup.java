@@ -22,6 +22,8 @@ public class Warmup extends AppCompatActivity
 
     private int warmupAimValue = 10;
 
+    private float timePast;
+
     private int durationValue;
     private int intensityValue;
 
@@ -49,6 +51,7 @@ public class Warmup extends AppCompatActivity
         intensityValue = userInputData.getIntExtra("intensityValue", 0);
         exerciseButtonSelected = userInputData.getBooleanExtra("exerciseButtonSelected", false);
         stretchingButtonSelected = userInputData.getBooleanExtra("stretchingButtonSelected", false);
+        timePast = userInputData.getFloatExtra("timePast", 0.0f);
 
         warmupTitleText = findViewById(R.id.warmupTitleText);
         warmupAimText = findViewById(R.id.warmupAimText);
@@ -67,7 +70,13 @@ public class Warmup extends AppCompatActivity
         chooseStretch.add("Touch Toes");
 
         //Use this to make new countdown times after the exercise ends.
+        timePast += 0.5f;
 
+        if(timePast >= (float) durationValue + 0.5f)
+        {
+            Intent home = new Intent(this, MainActivity.class);
+            startActivity(home);
+        }
 
         //Depending on the title that determins the image
 
@@ -105,13 +114,12 @@ public class Warmup extends AppCompatActivity
         }
         else
         {
-            warmupAimText.setText("Hold: " + warmupAimValue * intensityValue);
+            warmupAimText.setText("Hold");
 
             switch (chooseRandomExerciseOrStretch(chooseStretch))
             {
                 case 0:
                     warmupTitleText.setText(chooseStretch.get(0));
-                    imageToDisplay.setImageResource(R.drawable.jumping_jack);
                     break;
                 case 1:
                     warmupTitleText.setText(chooseStretch.get(1));
@@ -132,6 +140,12 @@ public class Warmup extends AppCompatActivity
 
     public void startWarmupTimer()
     {
+        if(warmupTimer != null)
+        {
+            warmupTimer.cancel();
+            warmupTimer = null;
+        }
+
         warmupTimer = new CountDownTimer(timeLeftInMilliseconds, 100)
         {
             @Override
@@ -145,13 +159,17 @@ public class Warmup extends AppCompatActivity
             public void onFinish()
             {
                 changeActivity.putExtra("recoveryTimerActive", recoveryTimerActive);
-                changeActivity.putExtra("recoveryTimerValue", recoveryTimerValue * intensityValue);
+                changeActivity.putExtra("recoveryTimerValue", recoveryTimerValue * (4 - intensityValue));
 
                 //Resending the data
                 changeActivity.putExtra("resentDurationValue", durationValue);
                 changeActivity.putExtra("resentIntensityValue", intensityValue);
                 changeActivity.putExtra("resentExerciseButtonSelected", exerciseButtonSelected);
                 changeActivity.putExtra("resentStretchingButtonSelected", stretchingButtonSelected);
+                changeActivity.putExtra("timePast", timePast);
+
+                warmupTimer.cancel();
+                warmupTimer = null;
 
                 startActivity(changeActivity);
             }

@@ -33,6 +33,8 @@ public class CountdownTimer extends AppCompatActivity
     private boolean resentStretchingButtonSelected;
     private Intent resentUserInputData;
 
+    private float timePast;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -46,6 +48,7 @@ public class CountdownTimer extends AppCompatActivity
         exerciseButtonSelected = userInputData.getBooleanExtra("exerciseButtonSelected", false);
         stretchingButtonSelected = userInputData.getBooleanExtra("stretchingButtonSelected", false);
 
+
         recoveryTimerActive = userInputData.getBooleanExtra("recoveryTimerActive", false);
         recoveryTimerValue = userInputData.getLongExtra("recoveryTimerValue", 0);
 
@@ -56,26 +59,34 @@ public class CountdownTimer extends AppCompatActivity
         resentExerciseButtonSelected = resentUserInputData.getBooleanExtra("resentExerciseButtonSelected", false);
         resentStretchingButtonSelected = resentUserInputData.getBooleanExtra("resentStretchingButtonSelected", false);
 
+        timePast = resentUserInputData.getFloatExtra("timePast", 0.0f);
+
 
         countdownText = (TextView) findViewById(R.id.countdownText);
         changeActivity = new Intent(this, Warmup.class);
 
         recoverText = (TextView) findViewById(R.id.recoverText);
 
-        if(recoveryTimerActive == false)
-        {
-            startCountdownTimer(countdownValue);
-        }
-        else
-        {
-            startCountdownTimer(recoveryTimerValue);
-            recoverText.setText("Recover");
-        }
+            if (recoveryTimerActive == false)
+            {
+                startCountdownTimer(countdownValue);
+            }
+            else {
+                startCountdownTimer(recoveryTimerValue);
+                recoverText.setText("Recover");
+            }
+
     }
 
     public void startCountdownTimer(long countdownValue)
     {
         timeLeftInMilliseconds = countdownValue;
+
+        if(countDownTimer != null)
+        {
+            countDownTimer.cancel();
+            countDownTimer = null;
+        }
 
         countDownTimer = new CountDownTimer(timeLeftInMilliseconds, 100)
         {
@@ -84,19 +95,6 @@ public class CountdownTimer extends AppCompatActivity
             {
                 timeLeftInMilliseconds = millisUntilFinished;
                 countdownText.setText("" + timeLeftInMilliseconds / 1000);
-
-               // count++;
-
-              /*  if(count == 10)
-                {
-                    changeActivity.putExtra("durationValue", durationValue);
-                    changeActivity.putExtra("intensityValue", intensityValue);
-                    changeActivity.putExtra("exerciseButtonSelected", exerciseButtonSelected);
-                    changeActivity.putExtra("stretchingButtonSelected", stretchingButtonSelected);
-                    startActivity(changeActivity);
-                    count = 0;
-
-                } */
             }
 
             @Override
@@ -115,9 +113,12 @@ public class CountdownTimer extends AppCompatActivity
                         changeActivity.putExtra("intensityValue", resentIntensityValue);
                         changeActivity.putExtra("exerciseButtonSelected", resentExerciseButtonSelected);
                         changeActivity.putExtra("stretchingButtonSelected", resentStretchingButtonSelected);
+                        changeActivity.putExtra("timePast", timePast);
                     }
-
+                countDownTimer.cancel();
+                countDownTimer = null;
                 startActivity(changeActivity);
+
             }
         }.start();
     }
