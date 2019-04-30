@@ -70,6 +70,7 @@ public class CountdownTimer extends AppCompatActivity
             if (recoveryTimerActive == false)
             {
                 startCountdownTimer(countdownValue);
+
             }
             else {
                 startCountdownTimer(recoveryTimerValue);

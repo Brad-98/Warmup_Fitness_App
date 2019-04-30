@@ -9,7 +9,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Warmup"></activity>
+        <service
+            android:name=".FirebaseMessagingService"
+            android:enabled="true"
+            android:exported="true"></service>
+
+        <activity android:name=".Warmup" />
         <activity android:name=".CountdownTimer" />
         <activity android:name=".MainActivity">
             <intent-filter>

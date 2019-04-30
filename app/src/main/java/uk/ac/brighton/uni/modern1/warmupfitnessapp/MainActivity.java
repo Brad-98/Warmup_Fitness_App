@@ -26,6 +26,7 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity
 {
     private Button startButton;
+    private Button databaseStartButton;
 
     private TextView durationValue;
     private TextView intensityText;
@@ -52,44 +53,10 @@ public class MainActivity extends AppCompatActivity
         FirebaseApp.initializeApp(this);
         setContentView(R.layout.activity_main);
 
-        //Firebase Database
-       // myDatabase = FirebaseDatabase.getInstance();
-      //  DatabaseReference myDatabaseChild = myDatabase.getReference("User Input");
-       // myDatabaseChild.setValue("Hello World!");
-
         // Write a message to the database
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         myRef = database.getReference("User Input");
 
-
-        //myRef.setValue("Lol");
-
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                //Storing the firebase database data in a map
-                Map<String, String> userInput = (Map) dataSnapshot.getValue();
-
-                //Retrieving the data in string form then converting it
-                String exerciseButtonString = userInput.get("Exercise Button Pressed");
-                exerciseButtonSelected = Boolean.parseBoolean(exerciseButtonString);
-
-                String stretchingButtonString = userInput.get("Stretching Button Pressed");
-                stretchingButtonSelected = Boolean.parseBoolean(stretchingButtonString);
-
-                String durationString = userInput.get("Duration");
-                duration = Integer.parseInt(durationString);
-
-                String intensityString = userInput.get("Intensity");
-                intensity = Integer.parseInt(intensityString);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
 
         exerciseButton = (ToggleButton) findViewById(R.id.exerciseButton);
         exerciseButton.setBackgroundColor(Color.LTGRAY);
@@ -216,6 +183,43 @@ public class MainActivity extends AppCompatActivity
 
                     goToCountdownTimerActivity();
                 }
+            }
+        });
+
+        databaseStartButton = (Button) findViewById(R.id.databaseStartButton);
+        databaseStartButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                myRef.addValueEventListener(new ValueEventListener()
+                {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+                    {
+                        //Storing the firebase database data in a map
+                        Map<String, String> userInput = (Map) dataSnapshot.getValue();
+
+                        //Retrieving the data in string form then converting it
+                        String exerciseButtonString = userInput.get("Exercise Button Pressed");
+                        exerciseButtonSelected = Boolean.parseBoolean(exerciseButtonString);
+
+                        String stretchingButtonString = userInput.get("Stretching Button Pressed");
+                        stretchingButtonSelected = Boolean.parseBoolean(stretchingButtonString);
+
+                        String durationString = userInput.get("Duration");
+                        duration = Integer.parseInt(durationString);
+
+                        String intensityString = userInput.get("Intensity");
+                        intensity = Integer.parseInt(intensityString);
+                        goToCountdownTimerActivity();
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
             }
         });
     }

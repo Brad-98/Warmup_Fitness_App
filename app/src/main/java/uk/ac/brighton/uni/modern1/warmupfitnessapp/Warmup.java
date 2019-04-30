@@ -76,6 +76,7 @@ public class Warmup extends AppCompatActivity
         {
             Intent home = new Intent(this, MainActivity.class);
             startActivity(home);
+            finish();
         }
 
         //Depending on the title that determins the image
