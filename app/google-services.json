@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "620641016949",
+    "firebase_url": "https://warmupfitnessapp.firebaseio.com",
+    "project_id": "warmupfitnessapp",
+    "storage_bucket": "warmupfitnessapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:620641016949:android:6f3bb537e1b1df19",
+        "android_client_info": {
+          "package_name": "uk.ac.brighton.uni.modern1.warmupfitnessapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "620641016949-2eevhgb7fkigkk5piq6jr30t8de416tv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "uk.ac.brighton.uni.modern1.warmupfitnessapp",
+            "certificate_hash": "90f287ddcd49d08edc2db1e38326e95b237fbb2e"
+          }
+        },
+        {
+          "client_id": "620641016949-1r2lg8ce5mbud76ukji0tlg0lg2vhma1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBlykmc3q1vYJT4Hs_Wd42CLAN4UPxQOTE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "620641016949-1r2lg8ce5mbud76ukji0tlg0lg2vhma1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

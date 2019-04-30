@@ -3,14 +3,25 @@ package uk.ac.brighton.uni.modern1.warmupfitnessapp;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.ToggleButton;
+
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -30,11 +41,55 @@ public class MainActivity extends AppCompatActivity
     private boolean exerciseButtonSelected = false;
     private boolean stretchingButtonSelected = false;
 
+    //Firebase Database
+    private FirebaseDatabase myDatabase;
+    private DatabaseReference myRef;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        FirebaseApp.initializeApp(this);
         setContentView(R.layout.activity_main);
+
+        //Firebase Database
+       // myDatabase = FirebaseDatabase.getInstance();
+      //  DatabaseReference myDatabaseChild = myDatabase.getReference("User Input");
+       // myDatabaseChild.setValue("Hello World!");
+
+        // Write a message to the database
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        myRef = database.getReference("User Input");
+
+
+        //myRef.setValue("Lol");
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                //Storing the firebase database data in a map
+                Map<String, String> userInput = (Map) dataSnapshot.getValue();
+
+                //Retrieving the data in string form then converting it
+                String exerciseButtonString = userInput.get("Exercise Button Pressed");
+                exerciseButtonSelected = Boolean.parseBoolean(exerciseButtonString);
+
+                String stretchingButtonString = userInput.get("Stretching Button Pressed");
+                stretchingButtonSelected = Boolean.parseBoolean(stretchingButtonString);
+
+                String durationString = userInput.get("Duration");
+                duration = Integer.parseInt(durationString);
+
+                String intensityString = userInput.get("Intensity");
+                intensity = Integer.parseInt(intensityString);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
         exerciseButton = (ToggleButton) findViewById(R.id.exerciseButton);
         exerciseButton.setBackgroundColor(Color.LTGRAY);
@@ -79,7 +134,6 @@ public class MainActivity extends AppCompatActivity
 
         durationValue = (TextView) findViewById(R.id.durationValue);
         durationBar = (SeekBar) findViewById(R.id.durationBar);
-
         durationBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener()
         {
             @Override
@@ -154,6 +208,12 @@ public class MainActivity extends AppCompatActivity
             {
                 if(exerciseButtonSelected == true || stretchingButtonSelected == true)
                 {
+                    //Firebase Database
+                    myRef.child("Exercise Button Pressed").setValue(Boolean.toString(exerciseButtonSelected));
+                    myRef.child("Stretching Button Pressed").setValue(Boolean.toString(stretchingButtonSelected));
+                    myRef.child("Duration").setValue(Integer.toString(duration));
+                    myRef.child("Intensity").setValue(Integer.toString(intensity));
+
                     goToCountdownTimerActivity();
                 }
             }
