@@ -74,7 +74,7 @@ public class CountdownTimer extends AppCompatActivity
             }
             else {
                 startCountdownTimer(recoveryTimerValue);
-                recoverText.setText("Recover");
+                recoverText.setText("Recovery Time");
             }
 
     }
@@ -82,12 +82,6 @@ public class CountdownTimer extends AppCompatActivity
     public void startCountdownTimer(long countdownValue)
     {
         timeLeftInMilliseconds = countdownValue;
-
-        if(countDownTimer != null)
-        {
-            countDownTimer.cancel();
-            countDownTimer = null;
-        }
 
         countDownTimer = new CountDownTimer(timeLeftInMilliseconds, 100)
         {
@@ -116,10 +110,8 @@ public class CountdownTimer extends AppCompatActivity
                         changeActivity.putExtra("stretchingButtonSelected", resentStretchingButtonSelected);
                         changeActivity.putExtra("timePast", timePast);
                     }
-                countDownTimer.cancel();
-                countDownTimer = null;
                 startActivity(changeActivity);
-
+                    finish();
             }
         }.start();
     }

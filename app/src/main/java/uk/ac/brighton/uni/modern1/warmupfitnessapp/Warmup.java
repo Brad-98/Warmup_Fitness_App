@@ -28,7 +28,7 @@ public class Warmup extends AppCompatActivity
     private int intensityValue;
 
     private CountDownTimer warmupTimer;
-    private long timeLeftInMilliseconds = 10000;
+    private long timeLeftInMilliseconds = 30000;
     private long recoveryTimerValue = 10000;
     private boolean recoveryTimerActive = true;
 
@@ -60,13 +60,13 @@ public class Warmup extends AppCompatActivity
 
         //If there was a database you would sub it in here
         chooseExercise = new ArrayList<>();
-        chooseExercise.add("Jumping Jack");
-        chooseExercise.add("Sit Up");
-        chooseExercise.add("Push Up");
+        chooseExercise.add("Star Jumps");
+        chooseExercise.add("Squats");
+        chooseExercise.add("Push Ups");
 
         chooseStretch = new ArrayList<>();
-        chooseStretch.add("Leg");
-        chooseStretch.add("Arm");
+        chooseStretch.add("Standing Quad");
+        chooseStretch.add("Cross-Body Shoulder");
         chooseStretch.add("Touch Toes");
 
         //Use this to make new countdown times after the exercise ends.
@@ -75,8 +75,9 @@ public class Warmup extends AppCompatActivity
         if(timePast >= (float) durationValue + 0.5f)
         {
             Intent home = new Intent(this, MainActivity.class);
+            timePast = 0;
+            warmupTimer = null;
             startActivity(home);
-            finish();
         }
 
         //Depending on the title that determins the image
@@ -103,13 +104,15 @@ public class Warmup extends AppCompatActivity
             {
                 case 0:
                     warmupTitleText.setText(chooseExercise.get(0));
-                    imageToDisplay.setImageResource(R.drawable.jumping_jack);
+                    imageToDisplay.setImageResource(R.drawable.star_jumps);
                     break;
                 case 1:
                     warmupTitleText.setText(chooseExercise.get(1));
+                    imageToDisplay.setImageResource(R.drawable.squats);
                     break;
                 case 2:
                     warmupTitleText.setText(chooseExercise.get(2));
+                    imageToDisplay.setImageResource(R.drawable.push_ups);
                     break;
             }
         }
@@ -121,12 +124,15 @@ public class Warmup extends AppCompatActivity
             {
                 case 0:
                     warmupTitleText.setText(chooseStretch.get(0));
+                    imageToDisplay.setImageResource(R.drawable.standing_quad);
                     break;
                 case 1:
                     warmupTitleText.setText(chooseStretch.get(1));
+                    imageToDisplay.setImageResource(R.drawable.crossbody_shoulder);
                     break;
                 case 2:
                     warmupTitleText.setText(chooseStretch.get(2));
+                    imageToDisplay.setImageResource(R.drawable.touch_toes);
                     break;
             }
         }
@@ -141,11 +147,6 @@ public class Warmup extends AppCompatActivity
 
     public void startWarmupTimer()
     {
-        if(warmupTimer != null)
-        {
-            warmupTimer.cancel();
-            warmupTimer = null;
-        }
 
         warmupTimer = new CountDownTimer(timeLeftInMilliseconds, 100)
         {
@@ -169,10 +170,8 @@ public class Warmup extends AppCompatActivity
                 changeActivity.putExtra("resentStretchingButtonSelected", stretchingButtonSelected);
                 changeActivity.putExtra("timePast", timePast);
 
-                warmupTimer.cancel();
-                warmupTimer = null;
-
                 startActivity(changeActivity);
+                finish();
             }
         }.start();
     }
