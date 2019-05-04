@@ -76,7 +76,6 @@ public class CountdownTimer extends AppCompatActivity
                 startCountdownTimer(recoveryTimerValue);
                 recoverText.setText("Recovery Time");
             }
-
     }
 
     public void startCountdownTimer(long countdownValue)

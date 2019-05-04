@@ -14,9 +14,9 @@
             android:enabled="true"
             android:exported="true"></service>
 
-        <activity android:name=".Warmup" />
-        <activity android:name=".CountdownTimer" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".Warmup" android:screenOrientation="portrait"/>
+        <activity android:name=".CountdownTimer" android:screenOrientation="portrait"/>
+        <activity android:name=".MainActivity" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

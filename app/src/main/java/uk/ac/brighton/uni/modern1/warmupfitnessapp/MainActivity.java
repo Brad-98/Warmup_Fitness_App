@@ -1,6 +1,7 @@
 package uk.ac.brighton.uni.modern1.warmupfitnessapp;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
@@ -42,6 +43,9 @@ public class MainActivity extends AppCompatActivity
     private boolean exerciseButtonSelected = false;
     private boolean stretchingButtonSelected = false;
 
+    //Persistence (CHGA)
+    private SharedPreferences preferences;
+
     //Firebase Database
     private FirebaseDatabase myDatabase;
     private DatabaseReference myRef;
@@ -52,6 +56,14 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         FirebaseApp.initializeApp(this);
         setContentView(R.layout.activity_main);
+
+        //Percistance
+        preferences = getSharedPreferences("PREFS", 0);
+
+        exerciseButtonSelected = preferences.getBoolean("previousExerciseButtonValue", false);
+        stretchingButtonSelected = preferences.getBoolean("previousStretchingButtonValue", false);
+        duration = preferences.getInt("previousDurationValue", 1);
+        intensity = preferences.getInt("previousIntensityValue", 1);
 
         // Write a message to the database
         FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -66,6 +78,12 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
             {
+
+                if(exerciseButtonSelected == true)
+                {
+                    isChecked = true;
+                }
+
                 if(isChecked)
                 {
                     exerciseButtonSelected = true;
@@ -175,6 +193,14 @@ public class MainActivity extends AppCompatActivity
             {
                 if(exerciseButtonSelected == true || stretchingButtonSelected == true)
                 {
+                    //Persistence
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putBoolean("previousExerciseButtonValue", exerciseButtonSelected);
+                    editor.putBoolean("previousStretchingButtonValue", stretchingButtonSelected);
+                    editor.putInt("previousDurationValue", duration);
+                    editor.putInt("previousIntensityValue", intensity);
+                    editor.apply();
+
                     //Firebase Database
                     myRef.child("Exercise Button Pressed").setValue(Boolean.toString(exerciseButtonSelected));
                     myRef.child("Stretching Button Pressed").setValue(Boolean.toString(stretchingButtonSelected));
@@ -182,6 +208,7 @@ public class MainActivity extends AppCompatActivity
                     myRef.child("Intensity").setValue(Integer.toString(intensity));
 
                     goToCountdownTimerActivity();
+                    finish();
                 }
             }
         });

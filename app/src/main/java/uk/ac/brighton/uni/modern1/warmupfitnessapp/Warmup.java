@@ -75,8 +75,9 @@ public class Warmup extends AppCompatActivity
         if(timePast >= (float) durationValue + 0.5f)
         {
             Intent home = new Intent(this, MainActivity.class);
+            timeLeftInMilliseconds = 999999999;
             timePast = 0;
-            warmupTimer = null;
+            finish();
             startActivity(home);
         }
 
