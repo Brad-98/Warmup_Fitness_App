@@ -69,36 +69,51 @@ public class MainActivity extends AppCompatActivity
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         myRef = database.getReference("User Input");
 
-
         exerciseButton = (ToggleButton) findViewById(R.id.exerciseButton);
-        exerciseButton.setBackgroundColor(Color.LTGRAY);
+
+        if(exerciseButtonSelected == true)
+        {
+            exerciseButton.setBackgroundColor(Color.parseColor("#77abff"));
+        }
+        else
+        {
+            exerciseButton.setBackgroundColor(Color.LTGRAY);
+        }
 
         exerciseButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
         {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
             {
-
-                if(exerciseButtonSelected == true)
-                {
-                    isChecked = true;
-                }
-
                 if(isChecked)
                 {
                     exerciseButtonSelected = true;
                     exerciseButton.setBackgroundColor(Color.parseColor("#77abff"));
+                    startButton.setBackgroundColor(Color.parseColor("#39c65c"));
                 }
                 else
                 {
                     exerciseButtonSelected = false;
                     exerciseButton.setBackgroundColor(Color.LTGRAY);
+                    if(stretchingButtonSelected == false)
+                    {
+                        startButton.setBackgroundColor(Color.LTGRAY);
+                    }
                 }
             }
         });
 
         stretchingButton = (ToggleButton) findViewById(R.id.stretchingButton);
-        stretchingButton.setBackgroundColor(Color.LTGRAY);
+
+        if(stretchingButtonSelected == true)
+        {
+            stretchingButton.setBackgroundColor(Color.parseColor("#77abff"));
+        }
+        else
+        {
+            stretchingButton.setBackgroundColor(Color.LTGRAY);
+        }
+
         stretchingButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
         {
             @Override
@@ -108,17 +123,39 @@ public class MainActivity extends AppCompatActivity
                 {
                     stretchingButtonSelected = true;
                     stretchingButton.setBackgroundColor(Color.parseColor("#77abff"));
+                    startButton.setBackgroundColor(Color.parseColor("#39c65c"));
                 }
                 else
                 {
                     stretchingButtonSelected = false;
                     stretchingButton.setBackgroundColor(Color.LTGRAY);
+                    if(exerciseButtonSelected == false)
+                    {
+                        startButton.setBackgroundColor(Color.LTGRAY);
+                    }
                 }
             }
         });
 
         durationValue = (TextView) findViewById(R.id.durationValue);
         durationBar = (SeekBar) findViewById(R.id.durationBar);
+
+        if(duration == 1)
+        {
+            durationBar.setProgress(duration - 1);
+            durationValue.setText("" + duration + " Minute");
+        }
+        else if(duration == 15)
+        {
+            durationBar.setProgress(duration);
+            durationValue.setText("" + duration + " Minutes");
+        }
+        else
+        {
+            durationBar.setProgress(duration - 1);
+            durationValue.setText("" + duration + " Minutes");
+        }
+
         durationBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener()
         {
             @Override
@@ -152,6 +189,21 @@ public class MainActivity extends AppCompatActivity
         intensityText = (TextView) findViewById(R.id.intensityText);
         intensityBar = (SeekBar) findViewById(R.id.intensityBar);
 
+        switch (intensity)
+        {
+            case 1:
+                intensityBar.setProgress(intensity - 1);
+                intensityText.setText("Low");
+                break;
+            case 2:
+                intensityBar.setProgress(intensity - 1);
+                intensityText.setText("Medium");
+                break;
+            case 3:
+                intensityBar.setProgress(intensity);
+                intensityText.setText("High");
+                break;
+        }
         intensityBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener()
         {
             @Override
@@ -186,6 +238,16 @@ public class MainActivity extends AppCompatActivity
         });
 
         startButton = (Button) findViewById(R.id.startButton);
+
+        if(exerciseButtonSelected == true || stretchingButtonSelected == true)
+        {
+            startButton.setBackgroundColor(Color.parseColor("#39c65c"));
+        }
+        else
+        {
+            startButton.setBackgroundColor(Color.LTGRAY);
+        }
+
         startButton.setOnClickListener(new View.OnClickListener()
         {
             @Override

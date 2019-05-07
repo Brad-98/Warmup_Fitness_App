@@ -2,6 +2,7 @@ package uk.ac.brighton.uni.modern1.warmupfitnessapp;
 
 import android.content.Intent;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -33,6 +34,8 @@ public class CountdownTimer extends AppCompatActivity
     private boolean resentStretchingButtonSelected;
     private Intent resentUserInputData;
 
+    private Vibrator vibrator;
+
     private float timePast;
 
     @Override
@@ -61,6 +64,7 @@ public class CountdownTimer extends AppCompatActivity
 
         timePast = resentUserInputData.getFloatExtra("timePast", 0.0f);
 
+        vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
 
         countdownText = (TextView) findViewById(R.id.countdownText);
         changeActivity = new Intent(this, Warmup.class);
@@ -89,6 +93,23 @@ public class CountdownTimer extends AppCompatActivity
             {
                 timeLeftInMilliseconds = millisUntilFinished;
                 countdownText.setText("" + timeLeftInMilliseconds / 1000);
+
+                if(timeLeftInMilliseconds <= 4000 && timeLeftInMilliseconds >= 3500)
+                {
+                    vibrator.vibrate(50);
+                }
+                else if(timeLeftInMilliseconds <= 3000 && timeLeftInMilliseconds >= 2500)
+                {
+                    vibrator.vibrate(50);
+                }
+                else if(timeLeftInMilliseconds <= 2000 && timeLeftInMilliseconds >= 1500)
+                {
+                    vibrator.vibrate(50);
+                }
+                else if(timeLeftInMilliseconds <= 1000 && timeLeftInMilliseconds >= 0)
+                {
+                    vibrator.vibrate(50);
+                }
             }
 
             @Override
