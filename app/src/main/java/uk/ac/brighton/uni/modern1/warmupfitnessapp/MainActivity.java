@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity
     private boolean exerciseButtonSelected = false;
     private boolean stretchingButtonSelected = false;
 
-    //Persistence (CHGA)
+    //Persistence
     private SharedPreferences preferences;
 
     //Firebase Database
@@ -65,10 +65,11 @@ public class MainActivity extends AppCompatActivity
         duration = preferences.getInt("previousDurationValue", 1);
         intensity = preferences.getInt("previousIntensityValue", 1);
 
-        // Write a message to the database
+        // Firebase database
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         myRef = database.getReference("User Input");
 
+        // Exercise Button
         exerciseButton = (ToggleButton) findViewById(R.id.exerciseButton);
 
         if(exerciseButtonSelected == true)
@@ -103,6 +104,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        //Stretching Button
         stretchingButton = (ToggleButton) findViewById(R.id.stretchingButton);
 
         if(stretchingButtonSelected == true)
@@ -137,6 +139,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        //Duration Seek Bar
         durationValue = (TextView) findViewById(R.id.durationValue);
         durationBar = (SeekBar) findViewById(R.id.durationBar);
 
@@ -186,6 +189,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        //Intensity Seek Bar
         intensityText = (TextView) findViewById(R.id.intensityText);
         intensityBar = (SeekBar) findViewById(R.id.intensityBar);
 
@@ -237,6 +241,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        //Start Button
         startButton = (Button) findViewById(R.id.startButton);
 
         if(exerciseButtonSelected == true || stretchingButtonSelected == true)
@@ -275,7 +280,9 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        //Database Button
         databaseStartButton = (Button) findViewById(R.id.databaseStartButton);
+        databaseStartButton.setBackgroundColor(Color.parseColor("#F79E25"));
         databaseStartButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -286,7 +293,7 @@ public class MainActivity extends AppCompatActivity
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot)
                     {
-                        //Storing the firebase database data in a map
+                        //Storing the Firebase database
                         Map<String, String> userInput = (Map) dataSnapshot.getValue();
 
                         //Retrieving the data in string form then converting it

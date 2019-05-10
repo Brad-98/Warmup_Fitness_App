@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FA8072"
+    android:background="#D68787"
     tools:context=".Warmup">
 
 
@@ -18,7 +18,7 @@
         android:layout_marginBottom="8dp"
         android:text="Title"
         android:textColor="@android:color/black"
-        android:textSize="30sp"
+        android:textSize="42sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.504"
@@ -69,7 +69,7 @@
         android:layout_marginBottom="8dp"
         android:text="Time Remaining"
         android:textColor="@android:color/black"
-        android:textSize="28sp"
+        android:textSize="32sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

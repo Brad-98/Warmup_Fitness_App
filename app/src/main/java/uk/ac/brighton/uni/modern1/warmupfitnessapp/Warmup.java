@@ -58,7 +58,7 @@ public class Warmup extends AppCompatActivity
         warmupCountdownText = findViewById(R.id.warmupCountdownText);
         imageToDisplay = (ImageView) findViewById(R.id.imageToDisplay);
 
-        //If there was a database you would sub it in here
+        //Creating the exercises/stretchs
         chooseExercise = new ArrayList<>();
         chooseExercise.add("Star Jumps");
         chooseExercise.add("Squats");
@@ -69,9 +69,9 @@ public class Warmup extends AppCompatActivity
         chooseStretch.add("Cross-Body Shoulder");
         chooseStretch.add("Touch Toes");
 
-        //Use this to make new countdown times after the exercise ends.
         timePast += 0.5f;
 
+        //Checking to see when the warmup ends
         if(timePast >= (float) durationValue + 0.5f)
         {
             Intent home = new Intent(this, MainActivity.class);
@@ -81,7 +81,7 @@ public class Warmup extends AppCompatActivity
             startActivity(home);
         }
 
-        //Depending on the title that determins the image
+        //Sets either exercises or stretches to be shown
 
         if(exerciseButtonSelected == true && stretchingButtonSelected == true)
         {
@@ -96,7 +96,7 @@ public class Warmup extends AppCompatActivity
             selecetedWarmupValue = 1;
         }
 
-
+        //Sets up the warmup page with correct information
         if(selecetedWarmupValue == 0)
         {
             warmupAimText.setText("Aim: " + warmupAimValue * intensityValue);
@@ -140,12 +140,14 @@ public class Warmup extends AppCompatActivity
         startWarmupTimer();
     }
 
+    //Choose random element from the arraylists
     private int chooseRandomExerciseOrStretch(ArrayList<String> list)
     {
         int arrayElement = (int) (Math.random() * list.size());
         return  arrayElement;
     }
 
+    //Warmup countdown timer
     public void startWarmupTimer()
     {
 

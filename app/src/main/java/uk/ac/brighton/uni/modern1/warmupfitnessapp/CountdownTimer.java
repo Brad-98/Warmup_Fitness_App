@@ -51,7 +51,6 @@ public class CountdownTimer extends AppCompatActivity
         exerciseButtonSelected = userInputData.getBooleanExtra("exerciseButtonSelected", false);
         stretchingButtonSelected = userInputData.getBooleanExtra("stretchingButtonSelected", false);
 
-
         recoveryTimerActive = userInputData.getBooleanExtra("recoveryTimerActive", false);
         recoveryTimerValue = userInputData.getLongExtra("recoveryTimerValue", 0);
 
@@ -62,13 +61,16 @@ public class CountdownTimer extends AppCompatActivity
         resentExerciseButtonSelected = resentUserInputData.getBooleanExtra("resentExerciseButtonSelected", false);
         resentStretchingButtonSelected = resentUserInputData.getBooleanExtra("resentStretchingButtonSelected", false);
 
+        //Checking Warmup Duration
         timePast = resentUserInputData.getFloatExtra("timePast", 0.0f);
 
+        //Vibrations for timer
         vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
 
         countdownText = (TextView) findViewById(R.id.countdownText);
         changeActivity = new Intent(this, Warmup.class);
 
+        //Either countdown or recovery timer values
         recoverText = (TextView) findViewById(R.id.recoverText);
 
             if (recoveryTimerActive == false)
@@ -82,6 +84,7 @@ public class CountdownTimer extends AppCompatActivity
             }
     }
 
+    //Countdown Timer
     public void startCountdownTimer(long countdownValue)
     {
         timeLeftInMilliseconds = countdownValue;
